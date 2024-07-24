@@ -1,0 +1,17 @@
+---
+- name: package management 
+  hosts: all
+  become: true
+
+  tasks:
+  - name: install mutt
+    ansible.builtin.apt:
+      name: mutt
+      state: present
+      update_cache: true
+  
+  - name: uninstall mutt 
+    ansible.builtin.apt:
+      name: mutt
+      state: absent
+      update_cache: true

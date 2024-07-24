@@ -1,0 +1,31 @@
+---
+- name: Service Management
+  hosts: all
+  become: true
+
+  tasks:
+  - name: install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+      update_cache: true
+  
+  - name: start nginx service 
+    ansible.builtin.service:
+      name: nginx
+      state: started
+
+  - name: start nginx on boot 
+    ansible.builtin.service:
+      name: nginx
+      enabled: yes
+
+  - name: stop ufw firewall 
+    ansible.builtin.service:
+      name: ufw
+      state: stopped
+
+  - name: disable ufw on boot 
+    ansible.builtin.service:
+      name: ufw
+      enabled: no

@@ -1,0 +1,20 @@
+---
+- name: install a webserver on a remote server
+  hosts: all
+  become: true
+   
+  tasks:
+  - name: Install apache2 on remote server
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+      update_cache: true
+  
+  - name: copy index.html file
+    ansible.builtin.copy:
+      src: index.html
+      dest: /var/www/html
+      owner: root
+      group: root
+      mode: '0644'
+    

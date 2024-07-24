@@ -1,0 +1,22 @@
+---
+- name: File and Directory management
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Create a directory /opt/myapp on remote hosts.
+    ansible.builtin.file:
+      path: /opt/myapp
+      state: directory
+      mode: '0755'
+      owner: root
+      group: root
+    
+  - name: copy configuration file from control node to managed nodes 
+    ansible.builtin.copy:
+      src: myapp.conf
+      dest: /etc/myapp/
+      mode: '0644'
+      owner: root 
+      group: root
+      
