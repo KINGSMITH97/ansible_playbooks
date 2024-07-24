@@ -1,0 +1,23 @@
+---
+- name: Cronjobs in ansible
+  host: all
+  become: true
+
+  tasks:
+  - name: Creating the Cronjobs
+    ansible.builtin.copy:
+      dest: /usr/local/bin/backup.sh
+      content: |
+        #!/bin/bash
+        echo "copy files. Executing files and Cronjobs"
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: executing the Cronjob
+    ansible.builtin.cron:
+      name: "cron jobs"
+      minute: 0
+      hour: 0
+      job: "/usr/local/bin/backup.sh"
+      user: root

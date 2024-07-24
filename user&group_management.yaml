@@ -1,0 +1,39 @@
+---
+- name: User and Group management
+  host: all
+  become: true
+
+  tasks:
+    - name: Create a user deploy with a specific home directory and shell.
+      ansible.builtin.user:
+        name: deploy
+        home: /home/deploy
+        shell: /bin/bash
+        state: present
+        create_home: yes
+
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
+        state: present
+
+    - name: add the deploy user to this group.
+      ansible.builtin.user:
+        name: deploy
+        groups: developers
+        append: yes
+
+    - name: ensure .ssh directory exist in deploy
+      ansible.builtin.file:
+        path: /home/deploy/.ssh
+        owner: deploy
+        group: deploy
+        mode: "0700"
+
+    - name: Ensure authorized_keys file has the SSH key
+      ansible.builtin.copy:
+        dest: /home/deploy/.ssh
+        content: "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArNL0UJ1hT1NnJ0YXN0wb5qP9eXJZO..."
+        owner: deploy
+        group: deploy
+        mode: "0600"
